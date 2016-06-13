@@ -53,8 +53,6 @@
           </td>
           <td>
             <a href="{{ url_for('rename_column', table=table, rename=column.name) }}">Rename</a>
-            <span class="separator">|</span>
-            <a href="{{ url_for('drop_column', table=table, name=column.name) }}">Drop</a>
           </td>
         </tr>
       {% endfor %}
