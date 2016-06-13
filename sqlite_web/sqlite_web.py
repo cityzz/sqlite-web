@@ -254,25 +254,7 @@ def add_column(table):
 @app.route('/<table>/drop-column/', methods=['GET', 'POST'])
 @require_table
 def drop_column(table):
-    request_data = get_request_data()
-    name = request_data.get('name', '')
-    columns = dataset.get_columns(table)
-    column_names = [column.name for column in columns]
-
-    if request.method == 'POST':
-        if name in column_names:
-            migrate(migrator.drop_column(table, name))
-            flash('Column "%s" was dropped successfully!' % name, 'success')
-            return redirect(url_for('table_structure', table=table))
-        else:
-            flash('Name is required.', 'danger')
-
-    return render_template(
-        'drop_column.html',
-        columns=columns,
-        column_names=column_names,
-        name=name,
-        table=table)
+    return render_template('drop_column.html')
 
 @app.route('/<table>/rename-column/', methods=['GET', 'POST'])
 @require_table
@@ -332,48 +314,12 @@ def add_index(table):
 @app.route('/<table>/drop-index/', methods=['GET', 'POST'])
 @require_table
 def drop_index(table):
-    request_data = get_request_data()
-    name = request_data.get('name', '')
-    indexes = dataset.get_indexes(table)
-    index_names = [index.name for index in indexes]
-
-    if request.method == 'POST':
-        if name in index_names:
-            migrate(migrator.drop_index(table, name))
-            flash('Index "%s" was dropped successfully!' % name, 'success')
-            return redirect(url_for('table_structure', table=table))
-        else:
-            flash('Index name is required.', 'danger')
-
-    return render_template(
-        'drop_index.html',
-        indexes=indexes,
-        index_names=index_names,
-        name=name,
-        table=table)
+    return render_template('drop_index.html')
 
 @app.route('/<table>/drop-trigger/', methods=['GET', 'POST'])
 @require_table
 def drop_trigger(table):
-    request_data = get_request_data()
-    name = request_data.get('name', '')
-    triggers = dataset.get_triggers(table)
-    trigger_names = [trigger.name for trigger in triggers]
-
-    if request.method == 'POST':
-        if name in trigger_names:
-            dataset.query('DROP TRIGGER "%s";' % name)
-            flash('Trigger "%s" was dropped successfully!' % name, 'success')
-            return redirect(url_for('table_structure', table=table))
-        else:
-            flash('Trigger name is required.', 'danger')
-
-    return render_template(
-        'drop_trigger.html',
-        triggers=triggers,
-        trigger_names=trigger_names,
-        name=name,
-        table=table)
+    return render_template('drop_trigger.html')
 
 @app.route('/<table>/content/')
 @require_table
@@ -529,13 +475,7 @@ def table_import(table):
 @app.route('/<table>/drop/', methods=['GET', 'POST'])
 @require_table
 def drop_table(table):
-    if request.method == 'POST':
-        model_class = dataset[table].model_class
-        model_class.drop_table()
-        flash('Table "%s" dropped successfully.' % table, 'success')
-        return redirect(url_for('index'))
-
-    return render_template('drop_table.html', table=table)
+    return render_template('drop_table.html')
 
 @app.template_filter('value_filter')
 def value_filter(value, max_length=50):
