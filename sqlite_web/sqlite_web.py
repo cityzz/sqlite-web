@@ -62,7 +62,6 @@ CUR_DIR = os.path.realpath(os.path.dirname(__file__))
 DEBUG = False
 MAX_RESULT_SIZE = 1000
 ROWS_PER_PAGE = 50
-SECRET_KEY = 'sqlite-database-browser-0.1.0'
 
 app = Flask(
     __name__,
@@ -553,8 +552,8 @@ def get_option_parser():
     parser.add_option(
         '-p',
         '--port',
-        default=8080,
-        help='Port for web interface, default=8080',
+        default=58888,
+        help='Port for web interface, default=58888',
         type='int')
     parser.add_option(
         '-H',
@@ -569,8 +568,8 @@ def get_option_parser():
     parser.add_option(
         '-x',
         '--no-browser',
-        action='store_false',
-        default=True,
+        action='store_true',
+        default=False,
         dest='browser',
         help='Do not automatically open browser page.')
     return parser
